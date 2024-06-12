@@ -33,6 +33,7 @@
                                 <a class="d-block blur-shadow-image">
                                   <img src="{{ asset('produk/'.$data->gambar) }}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg" id="gambar-preview" >
                                 </a>
+                              </div>
 
 
                             <button type="submit" class="btn btn-info">Simpan</button>

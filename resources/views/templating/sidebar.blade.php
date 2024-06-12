@@ -38,6 +38,22 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link text-white {{ Route::is('jenis_acara') ? 'active bg-gradient-primary' : '' }}" href="{{ route('jenis_acara') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                           
+                        </div>
+                        <span class="nav-link-text ms-1">Data Jenis acara</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ Route::is('ipen') ? 'active bg-gradient-primary' : '' }}" href="{{ route('ipen') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fa-solid fa-gift"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Event</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-white " href="../pages/billing.html">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">receipt_long</i>

@@ -100,7 +100,7 @@ public function update_barang(Request $request,$id){
     $data->harga = $harga;
 if ($request->hasFile('gambar')) {
     # code...
-    $file = (public_path('file_materi/' . $data->file));
+    $file=(public_path('/produk/'.$data->gambar));
     @unlink($file);
 
 $fileName = time().'.'.$request->file('gambar')->getClientOriginalExtension();
