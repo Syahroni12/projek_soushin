@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Jadwal extends Model
+class Barang extends Model
 {
     use HasFactory;
-    protected $tables = 'jadwals';
+    protected $tables = 'barangs';
     
     public $timestamps = true;
-    public $fillable = ['jam_awal','jam_akhir','tanggal','kelas'];
-    
+    public $fillable = ['nama_produk','harga','deskripsi','gambar'];
 }

@@ -12,7 +12,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-
+@include('templating.header')
 
 <body class="g-sidenav-show  bg-gray-200">
     {{-- Sidebar --}}
@@ -28,7 +28,7 @@
             @include('templating.footer_halaman')
         </div>
     </main>
-    @include('templating.setting_tema')
+    @include('templating.seeting_tema')
     @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
 
     @include('templating.footer_js')
