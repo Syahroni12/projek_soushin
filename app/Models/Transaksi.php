@@ -5,22 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Keranjang extends Model
+class Transaksi extends Model
 {
     use HasFactory;
-    protected $table = 'keranjangs';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    public $timestamps = true;
+
+    protected $tables = 'transaksis';
     protected $fillable = [
-        'id_barang',
+        'id_user',
         'id_pelanggan',
-        'qty',
-        'keterangan',
-        'sub_total',
+        'tanggal_pesan',
+        'tanggal_ambil',
+        'total_harga',
+        'total_bayar',
+        // 'model_bayar',
+        'status_pesanan',
+        'status_ambil',
     ];
 
     /**
@@ -31,15 +32,15 @@ class Keranjang extends Model
    
 
     /**
-     * Get the item (barang) associated with the detail pesanan.
+     * Get the user associated with the order.
      */
-    public function barang()
+    public function user()
     {
-        return $this->belongsTo(Barang::class, 'id_barang');
+        return $this->belongsTo(User::class, 'id_user');
     }
 
     /**
-     * Get the customer (pelanggan) associated with the detail pesanan.
+     * Get the customer associated with the order.
      */
     public function pelanggan()
     {

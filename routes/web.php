@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\AuthController::class, 'index'])->name('login')->middleware('guest');
+Route::get('/register', [App\Http\Controllers\AuthController::class, 'register'])->name('register')->middleware('guest');
+Route::post('/registeract', [App\Http\Controllers\AuthController::class, 'registeract'])->name('registeract')->middleware('guest');
+Route::post('/loginact', [App\Http\Controllers\AuthController::class, 'loginact'])->name('loginact')->middleware('guest');
+
+
 Route::get('/jadwal', [App\Http\Controllers\JadwalController::class, 'index'])->name('jadwal');
 Route::post('/tambah_jadwal', [App\Http\Controllers\JadwalController::class, 'tambah_jadwal'])->name('tambah_jadwal');
 Route::post('/update_jadwal', [App\Http\Controllers\JadwalController::class, 'update_jadwal'])->name('update_jadwal');
@@ -40,5 +43,7 @@ Route::get('/hapus_event/{id}', [App\Http\Controllers\EventController::class, 'h
 Route::get('/edit_event/{id}', [App\Http\Controllers\EventController::class, 'edit_event'])->name('edit_event');
 Route::put('/update_event/{id}', [App\Http\Controllers\EventController::class, 'update_event'])->name('update_event');
 Route::get('/event_detail/{id}', [App\Http\Controllers\EventController::class, 'event_detail'])->name('event_detail');
+
+
 
 

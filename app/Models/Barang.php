@@ -12,4 +12,14 @@ class Barang extends Model
     
     public $timestamps = true;
     public $fillable = ['nama_produk','harga','deskripsi','gambar'];
+
+    public function keranjangs()
+    {
+        return $this->hasMany(Keranjang::class, 'id_barang');
+    }
+public function detail_transaksi(){
+
+    return $this->hasMany(Detailtransaksi::class, 'id_barang');
+}
+
 }

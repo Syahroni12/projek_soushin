@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Keranjang extends Model
+class Detailtransaksi extends Model
 {
     use HasFactory;
-    protected $table = 'keranjangs';
+    protected $table = 'detail_transaksis';
 
     /**
      * The attributes that are mass assignable.
@@ -16,8 +16,8 @@ class Keranjang extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id_transaksi',
         'id_barang',
-        'id_pelanggan',
         'qty',
         'keterangan',
         'sub_total',
@@ -28,21 +28,21 @@ class Keranjang extends Model
      *
      * @var array<string, string>
      */
-   
+    
 
     /**
-     * Get the item (barang) associated with the detail pesanan.
+     * Get the transaction associated with the detail.
+     */
+    public function transaksi()
+    {
+        return $this->belongsTo(Transaksi::class, 'id_transaksi');
+    }
+
+    /**
+     * Get the item associated with the detail.
      */
     public function barang()
     {
         return $this->belongsTo(Barang::class, 'id_barang');
-    }
-
-    /**
-     * Get the customer (pelanggan) associated with the detail pesanan.
-     */
-    public function pelanggan()
-    {
-        return $this->belongsTo(Pelanggan::class, 'id_pelanggan');
     }
 }
