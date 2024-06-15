@@ -43,6 +43,7 @@ class AuthController extends Controller
     
             }else {
                 Alert::error('Gagal',"email atau password salah");
+                return back();
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -105,5 +106,14 @@ class AuthController extends Controller
         }
       
         
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        Alert::success('Success', 'Logout Berhasil di lakukan')->flash();
+        return redirect('/');
     }
 }

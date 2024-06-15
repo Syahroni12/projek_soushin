@@ -34,10 +34,10 @@ class Transaksi extends Model
     /**
      * Get the user associated with the order.
      */
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id_user');
-    }
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class, 'id_user');
+    // }
 
     /**
      * Get the customer associated with the order.

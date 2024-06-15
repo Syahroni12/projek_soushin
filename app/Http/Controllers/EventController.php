@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\events;
 use App\Models\JenisAcara;
+use App\Models\Keranjang;
+use App\Models\Pelanggan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -16,6 +19,23 @@ class EventController extends Controller
         $title="Event";
 
         $searchTerm = $request->search;
+
+        if (auth()->user()->role == 'pelanggan') {
+            $userId = Auth::id();
+            $pelanggan=Pelanggan::where('id_user', $userId)->first();
+            $jumlah_pesanan=Keranjang::where('id_pelanggan', $pelanggan->id)->count();
+            $data = events::where('title', 'like', '%' . $searchTerm . '%')
+            ->orWhere('description', 'like', '%' . $searchTerm . '%')
+            ->orWhere('location', 'like', '%' . $searchTerm . '%')
+            ->orWhere('organizer', 'like', '%' . $searchTerm . '%')
+            ->orWhere('start_date', 'like', '%' . $searchTerm . '%')
+            ->orWhere('end_date', 'like', '%' . $searchTerm . '%')
+            ->orWhere('status', 'like', '%' . $searchTerm . '%')
+            ->paginate(10);
+            $offset = ($data->currentPage() - 1) * $data->perPage();
+            return view('event.index',compact('title', 'data', 'offset', 'jumlah_pesanan'));
+            # code...
+        }
 
     $data = events::where('title', 'like', '%' . $searchTerm . '%')
         ->orWhere('description', 'like', '%' . $searchTerm . '%')

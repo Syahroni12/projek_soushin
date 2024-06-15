@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Detailtransaksi extends Model
 {
     use HasFactory;
-    protected $table = 'detail_transaksis';
+    protected $table = 'detailtransaksis';
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +19,7 @@ class Detailtransaksi extends Model
         'id_transaksi',
         'id_barang',
         'qty',
-        'keterangan',
+       
         'sub_total',
     ];
 

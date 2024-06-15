@@ -18,9 +18,7 @@
                         </form>
                     </div>
 
-                    <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Tambah Data
-                    </button>
+                 
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 
 
@@ -33,13 +31,16 @@
                                         <th>
                                             No</th>
                                         <th>
-                                            Kelas</th>
+                                            Nama Pelanggan</th>
                                         <th>
-                                            Tanggal</th>
+                                            No telp</th>
                                         <th>
-                                            Jam Awal</th>
+                                            Tanggal Pesan</th>
                                         <th>
-                                            Jam Akhir</th>
+                                            Tanggal Ambil</th>
+                                    
+                                        <th>
+                                            Total Harga</th>
                                         <th>
                                             Action</th>
                                     </tr>
@@ -53,20 +54,22 @@
                                     @foreach ($data as $item)
                                         <tr>
                                             <td> {{ $offset + $loop->iteration }}</td>
-                                            <td>{{ $item->kelas }}</td>
-                                            <td>{{ $item->tanggal }}</td>
-                                            <td>{{ $item->jam_awal }}</td>
-                                            <td>{{ $item->jam_akhir }}</td>
+                                            <td>{{ $item->pelanggan->name }}</td>
+                                            <td>{{ $item->pelanggan->no_hp }}</td>
+                                            <td>{{ $item->tanggal_pesan }}</td>
+                                            <td>{{ $item->tanggal_ambil }}</td>
+                                            <td>{{ number_format($item->total_harga) }}</td>
                                             <td><button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#editdata"onclick="edit({{ $item }})">
-                                                    <i class="fa-solid fa-pen-to-square"></i>Edit
+                                                    <i class="fa-solid fa-pen-to-square"></i>Bayar
                                                 </button>
-                                                <a href="{{ route('rekapabsenid', ['id' => $item->id]) }}" class="btn btn-primary">Lihat Rekap absen</a>
-                                                <button type="button" class="btn btn-danger btn-sm delete-btn" onclick="deleteData({{ $item->id }})">
+                                                <a href="{{ route('detail_pesanan', $item->id) }}" class="btn btn-info">Detail Pesanan</a>
+                                                {{-- <button type="button" class="btn btn-danger btn-sm delete-btn"
+                                                    onclick="deleteData({{ $item->id }})">
                                                     <i class="bi bi-trash-fill"></i> hapus data
-                                                </button>
+                                                </button> --}}
                                             </td>
-                                                
+
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -88,31 +91,28 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('update_jadwal') }}" method="post">
+                    <form action="{{ route('pembayaran_danpengambilan_proses') }}" method="post">
                         @csrf
+                        <div><span>Total Harga</span></div>
+                        <div class="input-group input-group-outline mb-4">
+                            {{-- <label class="form-label">Judul Event</label> --}}
+                            <input type="text" class="form-control" name="total_harga" id="total_harga" readonly>
+                            <input type="hidden" class="form-control" id="total_hargaa" readonly>
+                        </div>
+                        <input type="hidden" name="id" id="id_edit">
+                        <div><span>Total bayar</span></div>
+                        <div class="input-group input-group-outline mb-4">
+                            {{-- <label class="form-label">Judul Event</label> --}}
+                            <input type="text" class="form-control" name="bayar" id="bayar" value="0" oninput="formatAndCalculateValues(this)">
+                        </div>
+                        <div><span>Kembalian </span></div>
+                        <div class="input-group input-group-outline mb-4">
+                            {{-- <label class="form-label">Judul Event</label> --}}
+                            <input type="text" class="form-control" name="kembalian" id="kembalian" readonly>
+                        </div>
 
 
-                        <div class="form-group">
-                            <label for="kelass">Kelas</label>
-                            <input type="text" class="form-control bg-gray-100" name="kelas" id="kelass"
-                                placeholder="input kelas">
-                                <input type="hidden" name="id" id="id_edit">
-                        </div>
-                        <div class="form-group">
-                            <label for="tanggall">Tanggal</label>
-                            <input type="date" class="form-control bg-gray-100" name ="tanggal" id="tanggall"
-                                placeholder="input tanggal">
-                        </div>
-                        <div class="form-group">
-                            <label for="jam_awall">Dari Jam</label>
-                            <input type="time" class="form-control bg-gray-100" name="jam_awal" id="jam_awall"
-                                placeholder="input Dari Jam">
-                        </div>
-                        <div class="form-group">
-                            <label for="jam_akhirr">sampai Jam</label>
-                            <input type="time" class="form-control bg-gray-100" name="jam_akhir" id="jam_akhirr"
-                                placeholder="input sampai Jam">
-                        </div>
+
 
                 </div>
                 <div class="modal-footer">
@@ -123,62 +123,65 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('tambah_jadwal') }}" method="post">
-                        @csrf
 
-
-                        <div class="form-group">
-                            <label for="kelas">Kelas</label>
-                            <input type="text" class="form-control bg-gray-100" name="kelas" id="kelas"
-                                placeholder="input kelas">
-                               
-                        </div>
-                        <div class="form-group">
-                            <label for="tanggal">Tanggal</label>
-                            <input type="date" class="form-control bg-gray-100" name ="tanggal" id="tanggal"
-                                placeholder="input tanggal">
-                        </div>
-                        <div class="form-group">
-                            <label for="jam_awal">Dari Jam</label>
-                            <input type="time" class="form-control bg-gray-100" name="jam_awal" id="jam_awal"
-                                placeholder="input Dari Jam">
-                        </div>
-                        <div class="form-group">
-                            <label for="jam_akhir">sampai Jam</label>
-                            <input type="time" class="form-control bg-gray-100" name="jam_akhir" id="jam_akhirr"
-                                placeholder="input sampai Jam">
-                        </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <script>
+      
+
+      function formatAndCalculateValues(input) {
+        const totalHarga = parseCurrency(document.getElementById('total_hargaa').value);
+        
+        // Get the value from the bayar field and remove non-numeric characters
+        let bayar = parseCurrency(input.value);
+
+        // Calculate kembalian
+        const kembalian = bayar - totalHarga;
+        
+        // Update kembalian field (only if bayar is greater than totalHarga)
+        document.getElementById('kembalian').value = formatCurrency(kembalian > 0 ? kembalian : 0);
+
+        // Update bayar field with formatted value
+        input.value = formatCurrency(bayar);
+    }
+
+    // Function to ensure only numeric input is allowed
+    function restrictInputToNumbers(event) {
+        const key = event.key;
+        // Allow only digits, Backspace, and Delete keys
+        if (!/[0-9]/.test(key) && key !== 'Backspace' && key !== 'Delete') {
+            event.preventDefault();
+        }
+    }
+
+    // Add event listener to the bayar input field
+    document.getElementById('bayar').addEventListener('input', function() {
+        formatAndCalculateValues(this);
+    });
+
+    // Add keydown event listener to restrict input to numbers only
+    document.getElementById('bayar').addEventListener('keydown', restrictInputToNumbers);
+
+       
+
+        
+
+        
+
+
         function edit(data) {
-            console.log(data);
             document.getElementById("id_edit").value = data.id;
-            document.getElementById("kelass").value = data.kelas;
-            document.getElementById("tanggall").value = data.tanggal;
-            document.getElementById("jam_awall").value = data.jam_awal;
-            document.getElementById("jam_akhirr").value = data.jam_akhir;
+            document.getElementById("total_harga").value = data.total_harga.toLocaleString('id-ID');
+            document.getElementById("total_hargaa").value = data.total_harga;
+            // document.getElementById("bayar1").value = data.bayar.toLocaleString('id-ID');
+            // document.getElementById("kembalian1").value = data.kembalian.toLocaleString('id-ID');
+            // document.getElementById("total_harga1").value = parseInt(data.total_harga);
+            // document.getElementById("kurang_bayar").value = data.kurang_bayar.toLocaleString('id-ID');
+            // document.getElementById("kurang_bayar1").value = data.kurang_bayar.toLocaleString('id-ID');
+
         }
 
         function deleteData(id) {
-         
+
             // const itemId = document.getElementById("soal");
             Swal.fire({
                 title: "Apakah Kamu Yakin?",

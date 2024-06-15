@@ -9,15 +9,23 @@
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                
+                <!-- Add more items here if needed -->
             </div>
-            <ul class="navbar-nav  justify-content-end">
+            <ul class="navbar-nav justify-content-end">
+                @if (auth()->user()->role == 'pelanggan')
+                    
+                
                 <li class="nav-item d-flex align-items-center">
-                   
+                    <!-- Cart Icon with Notification Badge -->
+                    <a href="" class="nav-link p-0 text-body position-relative">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        <!-- Notification Badge -->
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ $jumlah_pesanan }} <!-- Change this number dynamically based on cart items -->
+                        </span>
+                    </a>
                 </li>
-                <li class="mt-2">
-                    <span></span>
-                </li>
+                @endif
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link p-0 text-body" id="iconNavbarSidenav">
                         <div class="sidenav-toggler-inner">
@@ -35,28 +43,15 @@
                 <li class="nav-item dropdown pe-2 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link p-0 text-body" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-user me-sm-1" aria-hidden="true"></i>p
+                        <i class="fa fa-user me-sm-1" aria-hidden="true"></i>{{ auth()->user()->name }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                         <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                <div class="d-flex py-1">
-                                   logout
-                                </div>
-                            </a>
+                            <i class="fa-solid fa-right-from-bracket"></i> <a href="{{ route('logout') }}">Logout</a>
                         </li>
-                       
-                        <li>
-                            
-                        </li>
+                        <!-- Add more dropdown items here if needed -->
                     </ul>
                 </li>
-                {{-- <li class="nav-item d-flex align-items-center">
-            <a href="../pages/sign-in.html" class="nav-link font-weight-bold px-0 text-body">
-              <i class="fa fa-user me-sm-1" aria-hidden="true"></i>
-              <span class="d-sm-inline d-none">Sign In</span>
-            </a>
-          </li> --}}
             </ul>
         </div>
     </div>

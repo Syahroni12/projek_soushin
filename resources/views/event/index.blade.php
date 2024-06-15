@@ -1,4 +1,3 @@
-
 @extends('templating.main')
 @section('content')
     <div class="row">
@@ -19,8 +18,9 @@
                         </form>
                     </div>
 
-
-                    <a href="{{ route('tambah_event') }}" class="btn btn-info">Tambah Event</a>
+                    @if (auth()->user()->role == 'admin')
+                        <a href="{{ route('tambah_event') }}" class="btn btn-info">Tambah Event</a>
+                    @endif
                     <div class="row">
                         @foreach ($data as $item)
                             <div class="card mb-3" style="width: 18rem;">
@@ -31,10 +31,13 @@
                                     <h6>Sampai tanggal : {{ $item->end_date }}</h6>
                                     <p class="card-text">{{ $item->description }}</p>
                                     <a href="/event_detail/{{ $item->id }}">detail</a>
-                                    <a href="{{ route('edit_event', ['id' => $item->id]) }}" class="btn btn-warning">Edit</a> <button type="button"
-                                        class="btn btn-danger delete-btn" onclick="deleteData({{ $item->id }})">
-                                        <i class="fa-solid fa-trash"></i>
-                                        {{--  --}}
+                                    @if (auth()->user()->role == 'admin')
+                                        <a href="{{ route('edit_event', ['id' => $item->id]) }}"
+                                            class="btn btn-warning">Edit</a> <button type="button"
+                                            class="btn btn-danger delete-btn" onclick="deleteData({{ $item->id }})">
+                                            <i class="fa-solid fa-trash"></i>
+                                    @endif
+                                    {{--  --}}
                                     </button>
                                 </div>
                             </div>
@@ -48,31 +51,30 @@
     </div>
 
     <script>
-         function deleteData(id) {
-         
-         // const itemId = document.getElementById("soal");
-         Swal.fire({
-             title: "Apakah Kamu Yakin?",
-             text: "Apakah Kamu Yakin Ingin Menghapus Data?",
-             icon: "warning",
-             showCancelButton: true,
-             confirmButtonColor: "#3085d6",
-             cancelButtonColor: "#d33",
-             cancelButtonText: "Batal",
-             confirmButtonText: "Ya"
-         }).then((result) => {
-             if (result.isConfirmed) {
-                 // console.log(id);
-                 window.location.href = `/hapus_event/${id}`;
-                 // window.location.href = "/selesaikan/".itemId "";
-                 // Swal.fire({
-                 //     title: "Deleted!",
-                 //     text: "Your file has been deleted.",
-                 //     icon: "success"
-                 // });
-             }
-         });
-     }
+        function deleteData(id) {
+
+            // const itemId = document.getElementById("soal");
+            Swal.fire({
+                title: "Apakah Kamu Yakin?",
+                text: "Apakah Kamu Yakin Ingin Menghapus Data?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "Batal",
+                confirmButtonText: "Ya"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // console.log(id);
+                    window.location.href = `/hapus_event/${id}`;
+                    // window.location.href = "/selesaikan/".itemId "";
+                    // Swal.fire({
+                    //     title: "Deleted!",
+                    //     text: "Your file has been deleted.",
+                    //     icon: "success"
+                    // });
+                }
+            });
+        }
     </script>
 @endsection
-

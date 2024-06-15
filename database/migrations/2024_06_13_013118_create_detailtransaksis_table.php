@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('id_barang')->references('id')->on('barangs')->onDelete('cascade');
           
             $table->integer('qty');
-            $table->string('keterangan')->nullable();
+            // $table->string('keterangan')->nullable();
             $table->integer('sub_total');
             $table->timestamps();
         });

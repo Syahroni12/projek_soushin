@@ -41,16 +41,7 @@
         </div>
     </div>
     <script>
-        function formatCurrency(input) {
-            // Hapus tanda titik atau koma jika ada
-            let valueWithoutCommas = input.value.replace(/[,.]/g, '');
-
-            // Format angka dengan tanda titik sebagai pemisah ribuan
-            let formattedValue = new Intl.NumberFormat('id-ID').format(valueWithoutCommas);
-
-            // Tampilkan nilai yang diformat pada input
-            input.value = formattedValue;
-        }
+      
         function previewImage(input) {
             var preview = document.getElementById('gambar-preview');
 
