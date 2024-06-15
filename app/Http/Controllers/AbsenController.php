@@ -17,13 +17,13 @@ class AbsenController extends Controller
 {
     public function index()
     {
-        $jumlah_pesanan = Keranjang::where('id_pelanggan', auth()->user()->id)->count();
         $title = "Absen";
-
-
+        
+        
         $id_user = Auth::id(); // Asumsikan pelanggan adalah user yang sedang login
         $Pelanggan = Pelanggan::where('id_user', $id_user)->first();
         $id_pelanggan = $Pelanggan->id;
+        $jumlah_pesanan = Keranjang::where('id_pelanggan',$id_pelanggan)->count();
 
         // Ambil tanggal hari ini
         $today = Carbon::now()->format('Y-m-d');

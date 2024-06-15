@@ -29,15 +29,27 @@
         return new Intl.NumberFormat('id-ID').format(value);
     }
 
-    function formatRp(data) {
-        var value = data.value.replace(/[^0-9]/g, '');
+    function formatRupiah(input) {
+            let value = input.value;
 
-        if (value) {
-            value = parseInt(value).toLocaleString('id-ID');
+            // Remove all non-digit characters
+            value = value.replace(/\D/g, '');
+
+            // Convert to integer for proper formatting
+            value = parseInt(value, 10);
+
+            // If the value is not a number, reset the input
+            if (isNaN(value)) {
+                input.value = '';
+                return;
+            }
+
+            // Convert number to string with thousands separators (using dots)
+            value = value.toLocaleString('id-ID');
+
+            // Set the formatted value back to the input
+            input.value = value;
         }
-
-        data.value = value;
-    }
 </script>
 </body>
 

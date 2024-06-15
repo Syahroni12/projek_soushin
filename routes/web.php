@@ -47,8 +47,13 @@ Route::post('/actpembayaran_danpengambilan', [App\Http\Controllers\TransaksiCont
 Route::get('/rekapabsen', [App\Http\Controllers\AbsenController::class, 'rekapabsen'])->name('rekapabsen');
 Route::get('rekapabsen/{id}', [App\Http\Controllers\AbsenController::class, 'rekapabsenid'])->name('rekapabsenid');
 });
-Route::get('/barang', [App\Http\Controllers\BarangController::class, 'index'])->name('barang')->middleware('auth');
 
+Route::get('/halaman_keranjang', [App\Http\Controllers\TransaksiController::class, 'halaman_keranjang'])->name('halaman_keranjang')->middleware(['auth']);
+Route::get('/tambah_qty/{id}', [App\Http\Controllers\TransaksiController::class, 'tambah_qty'])->name('tambah_qty')->middleware(['auth']);
+Route::get('/kurang_qty/{id}', [App\Http\Controllers\TransaksiController::class, 'kurang_qty'])->name('kurang_qty')->middleware(['auth']);
+Route::get('/reset_qty/{id}', [App\Http\Controllers\TransaksiController::class, 'reset_qty'])->name('reset_qty')->middleware(['auth']);
+Route::get('/barang', [App\Http\Controllers\BarangController::class, 'index'])->name('barang')->middleware('auth');
+Route::post('/pesan', [App\Http\Controllers\TransaksiController::class, 'pemesanan'])->name('pemesanan')->middleware(['auth']);
 Route::post('/tambah_keranjang', [App\Http\Controllers\KeranjangController::class, 'tambah_keranjang'])->name('tambah_keranjang')->middleware(['auth','pelanggan']);
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 Route::get('/absen', [App\Http\Controllers\AbsenController::class, 'index'])->name('absen')->middleware(['auth','pelanggan']);    
@@ -56,6 +61,9 @@ Route::post('/actabsen', [App\Http\Controllers\AbsenController::class, 'actabsen
 Route::get('/ipen', [App\Http\Controllers\EventController::class, 'index'])->name('ipen')->middleware('auth');
 Route::get('/lihat_keranjang', [App\Http\Controllers\KeranjangController::class, 'lihat_keranjang'])->name('lihat_keranjang')->middleware('auth');
 Route::get('/event_detail/{id}', [App\Http\Controllers\EventController::class, 'event_detail'])->name('event_detail');
+
+Route::get('/pesanan_saya', [App\Http\Controllers\TransaksiController::class, 'pesanan_saya'])->name('pesanan_saya')->middleware(['auth']);
+Route::get('/detailpesanan_saya/{id}', [App\Http\Controllers\TransaksiController::class, 'pesanan_saya_detail'])->name('pesanan_saya_detail')->middleware(['auth']);
 
 
 

@@ -17,12 +17,15 @@
                 
                 <li class="nav-item d-flex align-items-center">
                     <!-- Cart Icon with Notification Badge -->
-                    <a href="" class="nav-link p-0 text-body position-relative">
+                    <a href="{{ 'halaman_keranjang' }}" class="nav-link p-0 text-body position-relative">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                         <!-- Notification Badge -->
+                        {{-- @if ($jumlah_pesanan > 0) --}}
+                            
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             {{ $jumlah_pesanan }} <!-- Change this number dynamically based on cart items -->
                         </span>
+                        {{-- @endif --}}
                     </a>
                 </li>
                 @endif

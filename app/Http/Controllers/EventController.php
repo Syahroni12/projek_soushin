@@ -108,7 +108,7 @@ public function tambah_event_proses(Request $request){
 }
 
 public function event_detail($id){
-    $data=events::find($id);
+    $data=events::with('jenisacara')->find($id);
     $title="Detail Event";
     return view('event.detail_ipen',compact('title','data'));
     

@@ -16,7 +16,7 @@
                             </div>
                             <div class="input-group input-group-outline mb-4">
                                 <label class="form-label">Harga</label>
-                                <input type="text" class="form-control" name="harga"  oninput="formatCurrency(this)">
+                                <input type="text" class="form-control" name="harga"  oninput="formatRupiah(this)">
                             </div>
                             <div class="input-group input-group-dynamic mb-4">
 
