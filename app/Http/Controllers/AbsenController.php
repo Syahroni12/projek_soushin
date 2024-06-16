@@ -89,7 +89,7 @@ class AbsenController extends Controller
         $jadwal = Jadwal::find($id);
         $jam_sekarang = Carbon::now()->format('H:i:s');
         $tanggal_sekarang = Carbon::now()->format('Y-m-d');
-        if ($tanggal_sekarang == $jadwal->tanggal) {
+        if ($tanggal_sekarang >= $jadwal->tanggal) {
             if ($jam_sekarang > $jadwal->jam_akhir) {
                 $Pelanggan=Pelanggan::all();
 
