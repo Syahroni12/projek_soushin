@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('status', ['hadir', 'tidak hadir', 'izin']); // Enum for attendance status
             $table->string('bukti_surat')->nullable(); // Nullable column for supporting documents
             $table->date('tanggal'); // Date of the attendance record
-
+    
             // Add foreign key constraints
             $table->foreign('id_pelanggan')->references('id')->on('pelanggans')->onDelete('cascade');
             $table->foreign('id_jadwal')->references('id')->on('jadwals')->onDelete('cascade');

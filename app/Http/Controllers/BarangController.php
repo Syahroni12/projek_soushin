@@ -108,7 +108,7 @@ class BarangController extends Controller
             Alert::error($messages)->flash();
             return back()->withErrors($validator)->withInput();
         }
-        $harga = str_replace('.', '', $request->harga);
+        $harga = str_replace(['.', ','], '', $request->harga);
         $data = Barang::find($id);
         $data->nama_produk = $request->nama_produk;
         $data->deskripsi = $request->deskripsi;

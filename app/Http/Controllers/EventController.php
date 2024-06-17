@@ -6,6 +6,7 @@ use App\Models\events;
 use App\Models\JenisAcara;
 use App\Models\Keranjang;
 use App\Models\Pelanggan;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -109,6 +110,15 @@ public function tambah_event_proses(Request $request){
 
 public function event_detail($id){
     $data=events::with('jenisacara')->find($id);
+    if (auth()->user()->role == "pelanggan") {
+        $id_user = Auth::id(); // Asumsikan pelanggan adalah user yang sedang login
+        $Pelanggan = Pelanggan::where('id_user', $id_user)->first();
+
+        $id_pelanggan = $Pelanggan->id;
+        $jumlah_pesanan=Keranjang::where('id_pelanggan', $id_pelanggan)->count();
+        $title="Detail Event";
+        return view('event.detail_ipen',compact('title','data','id_pelanggan','id_user','jumlah_pesanan'));
+    }
     $title="Detail Event";
     return view('event.detail_ipen',compact('title','data'));
     

@@ -21,6 +21,7 @@
                             <p class="text-center">Tanggal :{{ $item->tanggal }}</p>
                             {{-- <p class="text-center">Kelas</p> --}}
                             <p class="text-center">dari jam:{{ $item->jam_awal }} sampai {{ $item->jam_akhir }}</p>
+                            <p class="text-center"><a href="{{ route('lihat_materiuser', $item->id_kelas) }}">lihat materi</a></p>
 
                             {{-- @if ($waktuSekarang >= $jamAwal)
                         <p class="text-center text-success">Waktu Sekarang berada di antara jam awal dan jam akhir</p>

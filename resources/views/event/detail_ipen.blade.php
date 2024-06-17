@@ -56,6 +56,14 @@
                                     <th>Status Evennt</th>
                                     <td>{{ $data->status }}</td>
                                     </tr>
+                                    <tr>
+                                    <th>capasitas orang</th>
+                                    <td>{{ $data->capacity }}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>Harga</th>
+                                    <td>{{ number_format($data->price) }}</td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>

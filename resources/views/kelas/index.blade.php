@@ -8,11 +8,11 @@
                         <form action="" method="GET" class="form-inline ml-2" id="searchForm">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="search" id="searchInput"
-                                    value="{{ Request()->search }}" placeholder="Cari Data Jadwal..."
+                                    value="{{ Request()->search }}" placeholder="Cari Data jenis_acara..."
                                     oninput="searchOnChange()">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" type="submit">Cari</button>
-                                    <a href="{{ route('jadwal') }}" class="btn btn-success">refresh</a>
+                                    <a href="{{ route('kelas') }}" class="btn btn-success">refresh</a>
                                 </div>
                             </div>
                         </form>
@@ -34,12 +34,7 @@
                                             No</th>
                                         <th>
                                             Kelas</th>
-                                        <th>
-                                            Tanggal</th>
-                                        <th>
-                                            Jam Awal</th>
-                                        <th>
-                                            Jam Akhir</th>
+
                                         <th>
                                             Action</th>
                                     </tr>
@@ -53,16 +48,13 @@
                                     @foreach ($data as $item)
                                         <tr>
                                             <td> {{ $offset + $loop->iteration }}</td>
-                                            <td>{{ $item->kelas->kelas }}</td>
-                                            <td>{{ $item->tanggal }}</td>
-                                            <td>{{ $item->jam_awal }}</td>
-                                            <td>{{ $item->jam_akhir }}</td>
+                                            <td>{{ $item->kelas }}</td>
+
                                             <td><button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#editdata"onclick="edit({{ $item }})">
                                                     <i class="fa-solid fa-pen-to-square"></i>Edit
                                                 </button>
-                                                <a href="{{ route('rekapabsenid', ['id' => $item->id]) }}"
-                                                    class="btn btn-primary">Lihat Rekap absen</a>
+                                                <a href="{{ route('data_materi', $item->id) }}" class="btn btn-sm btn-info">lihat materi</a>
                                                 <button type="button" class="btn btn-danger btn-sm delete-btn"
                                                     onclick="deleteData({{ $item->id }})">
                                                     <i class="bi bi-trash-fill"></i> hapus data
@@ -90,36 +82,21 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('update_jadwal') }}" method="post">
+                    <form action="{{ route('update_kelas') }}" method="post">
                         @csrf
 
 
-                        <div class="input-group input-group-static mb-4">
-                            <label for="kelas" class="ms-0">Kelas</label>
-                            <select class="form-control" id="kelass" name="id_kelas">
-                                @foreach ($kelas as $item)
-                                    <option value="{{ $item->id }}">{{ $item->kelas }}</option>
-                                @endforeach
 
 
-                            </select>
+                        <input type="hidden" name="id" id="id_edit">
+
+                        <div class="input-group input-group-dynamic mb-4">
+                            <input type="text" class="form-control" name="kelas" id="kelass">
+
+                            <span class="input-group-text" id="basic-addon2">Jenis Acara</span>
                         </div>
-                            <input type="hidden" name="id" id="id_edit">
-                        <div class="form-group">
-                            <label for="tanggall">Tanggal</label>
-                            <input type="date" class="form-control bg-gray-100" name ="tanggal" id="tanggall"
-                                placeholder="input tanggal">
-                        </div>
-                        <div class="form-group">
-                            <label for="jam_awall">Dari Jam</label>
-                            <input type="time" class="form-control bg-gray-100" name="jam_awal" id="jam_awall"
-                                placeholder="input Dari Jam">
-                        </div>
-                        <div class="form-group">
-                            <label for="jam_akhirr">sampai Jam</label>
-                            <input type="time" class="form-control bg-gray-100" name="jam_akhir" id="jam_akhirr"
-                                placeholder="input sampai Jam">
-                        </div>
+
+
 
                 </div>
                 <div class="modal-footer">
@@ -138,38 +115,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('tambah_jadwal') }}" method="post">
+                    <form action="{{ route('tambah_kelas') }}" method="post">
                         @csrf
 
 
-                        <div class="input-group input-group-static mb-4">
-                            <label for="kelas" class="ms-0">Kelas</label>
-                            <select class="form-control" id="kelas" name="id_kelas">
-                                @foreach ($kelas as $item)
-                                    <option value="{{ $item->id }}">{{ $item->kelas }}</option>
-                                @endforeach
-
-
-                            </select>
-                        </div>
-                        <div> Tanggal</div>
                         <div class="input-group input-group-outline mb-4">
-
-                            <input type="date" class="form-control" name="tanggal">
-
-                        </div>
-                        <div>Dari Jam</div>
-                        <div class="input-group input-group-outline mb-4">
-
-                            <input type="time" class="form-control" name="jam_awal">
+                            <label class="form-label">Kelas</label>
+                            <input type="text" class="form-control" name="kelas">
 
                         </div>
-                        <div>Sampai Jam</div>
-                        <div class="input-group input-group-outline mb-4">
-                            {{-- <label class="form-label">Sampai Jam</label> --}}
-                            <input type="time" class="form-control" name="jam_akhir">
 
-                        </div>
 
                 </div>
                 <div class="modal-footer">
@@ -185,17 +140,8 @@
         function edit(data) {
             console.log(data);
             document.getElementById("id_edit").value = data.id;
-            // document.getElementById("kelass").value = data.kelas;
-            document.getElementById("tanggall").value = data.tanggal;
-            document.getElementById("jam_awall").value = data.jam_awal;
-            document.getElementById("jam_akhirr").value = data.jam_akhir;
-            const kelas = document.getElementById("kelass");
-            for (let i = 0; i < kelas.options.length; i++) {
-                if (kelas.options[i].value == data.id_kelas) {
-                    kelas.selectedIndex = i;
-                    break;
-                }
-            }
+            document.getElementById("kelass").value = data.kelas;
+
         }
 
         function deleteData(id) {
@@ -213,7 +159,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // console.log(id);
-                    window.location.href = `/hapus_jadwal/${id}`;
+                    window.location.href = `/hapus_kelas/${id}`;
                     // window.location.href = "/selesaikan/".itemId "";
                     // Swal.fire({
                     //     title: "Deleted!",

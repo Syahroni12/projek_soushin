@@ -158,7 +158,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // console.log(id);
-                    window.location.href = `/hapus_jadwal/${id}`;
+                    window.location.href = `/hapus_jenis_acara/${id}`;
                     // window.location.href = "/selesaikan/".itemId "";
                     // Swal.fire({
                     //     title: "Deleted!",

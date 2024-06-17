@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Absen;
 use App\Models\Jadwal;
+use App\Models\Kelas;
 use App\Models\Keranjang;
+use App\Models\Materi;
 use App\Models\Pelanggan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -35,7 +37,11 @@ class AbsenController extends Controller
                     ->where('absens.id_pelanggan', '=', $id_pelanggan)
                     ->where('absens.tanggal', '=', $today);
             })
-            ->select('jadwals.*', 'absens.status as absen_status')
+            ->Join('kelas', function ($join) use ($id_pelanggan, $today) {
+                $join->on('kelas.id', '=', 'jadwals.id_kelas')
+                    ->where('jadwals.tanggal', '=', $today);
+            })
+            ->select('jadwals.*','kelas.kelas as kelas','kelas.id as id_kelas', 'absens.status as absen_status')
             ->whereDate('jadwals.tanggal', $today)
             ->get();
         return view('absen.index', compact('jadwals', 'jumlah_pesanan', 'title', 'jam_sekarang'));
@@ -110,5 +116,20 @@ class AbsenController extends Controller
         $data=Absen::with('jadwal','pelanggan')->where('id_jadwal', $id)->get();
         // $offset = ($data->currentPage() - 1) * $data->perPage();
         return view('jadwal.rekap_absen', compact('title', 'data', 'jadwal'));
+    }
+
+
+
+    public function lihat_materiuser($id) {
+        $id_user = Auth::id(); // Asumsikan pelanggan adalah user yang sedang login
+        $Pelanggan = Pelanggan::where('id_user', $id_user)->first();
+
+        $id_pelanggan = $Pelanggan->id;
+        $jumlah_pesanan=Keranjang::where('id_pelanggan', $id_pelanggan)->count();
+        $kelas=Kelas::find($id);
+        $title = "Materi dari kelas" .$kelas->kelas;
+        $data=Materi::where('id_kelas', $id) ->paginate(30);
+        $offset = ($data->currentPage() - 1) * $data->perPage();
+        return view('absen.materi',compact('title', 'data','id','offset','id_pelanggan','jumlah_pesanan'));
     }
 }

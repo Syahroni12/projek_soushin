@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jadwal;
+use App\Models\Kelas;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,15 +14,24 @@ class JadwalController extends Controller
     public function index(Request $request)
     {
         $title = "Data Jadwal";
-        $data = Jadwal::orWhere('jam_awal', 'like', '%' . $request->search . '%')->orWhere('jam_akhir', 'like', '%' . $request->search . '%')->orWhere('tanggal', 'like', '%' . $request->search . '%')->orWhere('kelas', 'like', '%' . $request->search . '%')->paginate(10);
+        $kelas=Kelas::all();
+        $data = Jadwal::with('kelas')
+        ->where('jam_awal', 'like', '%' . $request->search . '%')
+        ->orWhere('jam_akhir', 'like', '%' . $request->search . '%')
+        ->orWhere('tanggal', 'like', '%' . $request->search . '%')
+        ->orWhereHas('kelas', function($query) use ($request) {
+            $query->where('kelas', 'like', '%' . $request->search . '%');
+        })
+        ->paginate(10);
+    
         $offset = ($data->currentPage() - 1) * $data->perPage();
-        return view('jadwal.index', compact('title', 'data', 'offset'));
+        return view('jadwal.index', compact('title', 'data', 'offset', 'kelas'));
     }
 
     public function tambah_jadwal(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'kelas' => 'required|string|max:255',
+            'id_kelas' => 'required|integer|exists:kelas,id',
             'jam_awal' => 'required',
             'jam_akhir' => 'required',
             'tanggal' => 'required|date',
@@ -38,7 +48,7 @@ class JadwalController extends Controller
         $data->jam_awal = $jam_awal;
         $data->jam_akhir = $jam_akhir;
         $data->tanggal = $tanggal;
-        $data->kelas = $request->kelas;
+        $data->id_kelas = $request->id_kelas;
         $data->save();
         Alert::success('Success', 'Data Berhasil di tambah')->flash();
         return redirect()->route('jadwal');
@@ -52,7 +62,7 @@ class JadwalController extends Controller
             'jam_awal' => 'required',
             'jam_akhir' => 'required',
             'tanggal' => 'required|date',
-            'kelas' => 'required|string|max:255',
+            'id_kelas' => 'required|integer|exists:kelas,id',
         ]);
         if ($validator->fails()) {
             $messages = $validator->errors()->all();
@@ -63,7 +73,7 @@ class JadwalController extends Controller
         $data->jam_awal = $this->convertTo24HourFormat($request->jam_awal);
         $data->jam_akhir = $this->convertTo24HourFormat($request->jam_akhir);
         $data->tanggal = Carbon::parse($request->tanggal)->format('Y-m-d');
-        $data->kelas = $request->kelas;
+        $data->id_kelas = $request->id_kelas;
         $data->save();
         Alert::success('Success', 'Data Berhasil di update')->flash();
         return redirect()->route('jadwal');

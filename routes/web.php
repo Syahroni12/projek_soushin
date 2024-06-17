@@ -38,6 +38,10 @@ Route::post('/tambah_event_proses', [App\Http\Controllers\EventController::class
 Route::get('/hapus_event/{id}', [App\Http\Controllers\EventController::class, 'hapus_event'])->name('hapus_event');
 Route::get('/edit_event/{id}', [App\Http\Controllers\EventController::class, 'edit_event'])->name('edit_event');
 Route::put('/update_event/{id}', [App\Http\Controllers\EventController::class, 'update_event'])->name('update_event');
+Route::get('/kelas', [App\Http\Controllers\KelasController::class, 'index'])->name('kelas');
+Route::post('/tambah_kelas', [App\Http\Controllers\KelasController::class, 'tambah_kelas'])->name('tambah_kelas');
+Route::post('/update_kelas', [App\Http\Controllers\KelasController::class, 'update_kelas'])->name('update_kelas');
+Route::get('/hapus_kelas/{id}', [App\Http\Controllers\KelasController::class, 'hapus_kelas'])->name('hapus_kelas');
 
 Route::get('/pembayaran_danpengambilan', [App\Http\Controllers\TransaksiController::class, 'pembayaran'])->name('pembayaran_danpengambilan');
 Route::get('/pesanan_selesai', [App\Http\Controllers\TransaksiController::class, 'pesanan_selesai'])->name('pesanan_selesai');
@@ -46,6 +50,10 @@ Route::post('/actpembayaran_danpengambilan', [App\Http\Controllers\TransaksiCont
 
 Route::get('/rekapabsen', [App\Http\Controllers\AbsenController::class, 'rekapabsen'])->name('rekapabsen');
 Route::get('rekapabsen/{id}', [App\Http\Controllers\AbsenController::class, 'rekapabsenid'])->name('rekapabsenid');
+Route::get('/data_materi/{id}', [App\Http\Controllers\KelasController::class, 'data_materi'])->name('data_materi')->middleware('auth');
+Route::post('/tambah_materi', [App\Http\Controllers\KelasController::class, 'tambah_materi'])->name('tambah_materi')->middleware('auth');
+Route::post('/update_materi', [App\Http\Controllers\KelasController::class, 'update_materi'])->name('update_materi')->middleware('auth');
+Route::get('/hapus_materi/{id}', [App\Http\Controllers\KelasController::class, 'hapus_materi'])->name('hapus_materi')->middleware('auth');
 });
 
 Route::get('/halaman_keranjang', [App\Http\Controllers\TransaksiController::class, 'halaman_keranjang'])->name('halaman_keranjang')->middleware(['auth']);
@@ -55,6 +63,7 @@ Route::get('/reset_qty/{id}', [App\Http\Controllers\TransaksiController::class, 
 Route::get('/barang', [App\Http\Controllers\BarangController::class, 'index'])->name('barang')->middleware('auth');
 Route::post('/pesan', [App\Http\Controllers\TransaksiController::class, 'pemesanan'])->name('pemesanan')->middleware(['auth']);
 Route::post('/tambah_keranjang', [App\Http\Controllers\KeranjangController::class, 'tambah_keranjang'])->name('tambah_keranjang')->middleware(['auth','pelanggan']);
+Route::get('/lihat_materiuser/{id}', [App\Http\Controllers\AbsenController::class, 'lihat_materiuser'])->name('lihat_materiuser')->middleware(['auth','pelanggan']);
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 Route::get('/absen', [App\Http\Controllers\AbsenController::class, 'index'])->name('absen')->middleware(['auth','pelanggan']);    
 Route::post('/actabsen', [App\Http\Controllers\AbsenController::class, 'actabsen'])->name('actabsen')->middleware(['auth','pelanggan']);    
